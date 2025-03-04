@@ -1,4 +1,4 @@
-## This is not the official Casemove repo, it was forked from the main one before the licence change
+## This is not the official Casemove repo, it was forked from the main one before the license change
 ## This repository originates from casemove, but any modifications, updates, or changes made here are independent and do not reflect the work or endorsement of the original author https://github.com/nombersDev
 ## if you are interested in the latest version made by nombers (the original creator) --> https://github.com/nombersDev/casemove
 
