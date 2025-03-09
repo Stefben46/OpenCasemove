@@ -21,7 +21,6 @@ import { ReducerManager } from 'renderer/functionsClasses/reducerManager';
 import { State } from 'renderer/interfaces/states';
 import { moveFromReset } from 'renderer/store/actions/moveFromActions';
 import { ConvertPricesFormatted } from 'renderer/functionsClasses/prices';
-import { createCSGOImage } from '../../../../functionsClasses/createCSGOImage';
 setTradeConfirm;
 export default function TradeModal() {
   let currentState: State = new ReducerManager(useSelector).getStorage();
@@ -174,9 +173,9 @@ export default function TradeModal() {
                               <img
                                 className="max-w-none h-7 w-7  object-cover z-10 absolute"
                                 src={
-                                  createCSGOImage(
-                                    project.item_url
-                                  )
+                                  'https://raw.githubusercontent.com/steamdatabase/gametracking-csgo/108f1682bf7eeb1420caaf2357da88b614a7e1b0/csgo/pak01_dir/resource/flash/' +
+                                  project.item_url +
+                                  '.png'
                                 }
                               />
                             )}
@@ -184,7 +183,9 @@ export default function TradeModal() {
                             project.item_id != activeHover ? (
                               <img
                                 className="max-w-none h-7 w-7  object-cover absolute z-0 opacity-50 "
-                                src={createCSGOImage('econ/tools/casket')}
+                                src={
+                                  'https://raw.githubusercontent.com/steamdatabase/gametracking-csgo/108f1682bf7eeb1420caaf2357da88b614a7e1b0/csgo/pak01_dir/resource/flash/econ/tools/casket.png'
+                                }
                               />
                             ) : (
                               ''
