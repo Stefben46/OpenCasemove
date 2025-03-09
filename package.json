@@ -93,8 +93,8 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "nombersDev",
-      "repo": "casemove"
+      "owner": "Stefben46",
+      "repo": "OpenCasemove"
     }
   },
   "author": {
