@@ -9,15 +9,7 @@
 
 ----
 
-## Download Latest Version (Casemove 2.3.3)
 
-This is the latest stable version and can be downloaded from the [releases](https://github.com/nombersDev/casemove/releases) page, or directly from:
-
-
-- [Windows - (Casemove-2.3.3)](https://github.com/nombersDev/casemove/releases/download/v2.3.3/Casemove-Setup-2.3.3.exe)
-- [Mac - (Casemove-2.3.3)](https://github.com/nombersDev/casemove/releases/download/v2.3.3/Casemove-2.3.3.dmg)
-- [Mac ARM 64 (M1) - (Casemove-2.3.3)](https://github.com/nombersDev/casemove/releases/download/v2.3.3/Casemove-2.3.3-arm64.dmg)
-- [Linux Deb - (Casemove-2.3.3)](https://github.com/nombersDev/casemove/releases/download/v2.3.3/casemove_2.3.3_amd64.deb)
 
 ## Support
 
@@ -48,20 +40,23 @@ Trade up features:
   * See the possible outcomes from your trade up contract
   * See an estimated EV of your trade up contract recipe
 
-
- 
- 
 ----
 
 ### How To Use
 
-Use this link to install [Casemove](https://github.com/nombersDev/casemove/releases) 
+If you want to use this working version of CaseMove, you will need to build the project yourself.
 
-To use:
-  * Download the latest stable version of Casemove
-  * Install the application
-  * Run the app
-  * Log in
+The project currently works but does not load charms and has issues with new skins. These problems will be fixed in future updates.
+
+I use Node.js v14.18.2 and NPM v7.24.2 to build it.
+
+After installing Node.js and NPM, navigate to the project folder and run:
+npm install
+Once the project is built, you will find the setup installer in the release/build folder.
+
+For now, I don’t plan on publishing a pre-built installer, but if there is enough interest, I may do so in the future.
+
+
 
 ----
 
