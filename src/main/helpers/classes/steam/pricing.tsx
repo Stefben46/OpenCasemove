@@ -1,6 +1,5 @@
 import { getValue, setValue } from './settings';
 
-const axios = require('axios');
 require('dotenv').config();
 const EventEmitter = require('events');
 class MyEmitter extends EventEmitter {}
@@ -8,30 +7,120 @@ const pricingEmitter = new MyEmitter();
 
 // Get latest prices, if fail use backup
 
-async function getPricesBackup(cas) {
-  const pricesBackup = require('./backup/prices.json');
-  cas.setPricing(pricesBackup);
+interface SkinportItem {
+  market_hash_name: string;
+  currency: string;
+  suggested_price: number;
+  item_page: string;
+  market_page: string;
+  min_price: number;
+  max_price: number;
+  mean_price: number;
+  median_price: number;
+  quantity: number;
+  created_at: number;
+  updated_at: number;
 }
-async function getPrices(cas) {
-  const url = 'https://cdn.skinledger.com/casemove/prices.json';
-  axios
-    .get(url)
-    .then(function (response) {
-      console.log(
-        'prices, response',
-        typeof response === 'object',
-        response !== null
-      );
-      if (typeof response === 'object' && response !== null) {
-        cas.setPricing(response.data, 'normal');
-      } else {
-        getPricesBackup(cas);
+
+interface SkinledgerPricing {
+  steam: {
+    last_24h: number;
+    last_7d: number;
+    last_30d: number;
+    last_90d: number;
+  };
+  buff163: {
+    starting_at: {
+      price: number;
+    };
+  };
+  skinport: {
+    starting_at: number;
+  };
+}
+
+interface CasInterface {
+  setPricing(
+    pricingData: { [key: string]: SkinledgerPricing },
+    commandFrom: string
+  ): void;
+}
+
+// Fallback function to load backup prices
+async function getPricesBackup(cas: CasInterface): Promise<void> {
+  const pricesBackup = require('./backup/prices.json');
+  cas.setPricing(pricesBackup, 'backup');
+}
+
+// Get prices from Skinport API and transform them to Skinledger format
+async function getPrices(cas: CasInterface): Promise<void> {
+  const params = new URLSearchParams({
+    app_id: '730', // CS:GO app ID
+    currency: 'EUR', // Currency set to EUR
+    tradable: '0', // Filter items by tradable status (0 means not tradable)
+  });
+
+  try {
+    const response = await fetch(
+      `https://api.skinport.com/v1/items?${params}`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept-Encoding': 'br',
+        },
       }
-    })
-    .catch(function (error) {
-      console.log('Error prices', error);
-      getPricesBackup(cas);
-    });
+    );
+
+    // Check if the response status is OK (200)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data: SkinportItem[] = await response.json();
+    console.log('prices, response', Array.isArray(data), data !== null);
+
+    if (Array.isArray(data) && data.length > 0) {
+      const transformedPrices = transformSkinportToSkinledger(data);
+      cas.setPricing(transformedPrices, 'normal');
+    } else {
+      getPricesBackup(cas); // Fallback to backup if the data isn't valid
+    }
+  } catch (error) {
+    console.log('Error prices', error);
+    getPricesBackup(cas); // Fallback to backup in case of an error
+  }
+}
+
+// Function to transform Skinport data to Skinledger format
+function transformSkinportToSkinledger(skinportData: SkinportItem[]): {
+  [key: string]: SkinledgerPricing;
+} {
+  const transformedData: { [key: string]: SkinledgerPricing } = {};
+
+  skinportData.forEach((item) => {
+    // Extract the necessary data from Skinport and map it to Skinledger format
+    const skinledgerPricing: SkinledgerPricing = {
+      steam: {
+        last_24h: item.median_price, // You can adjust this if needed
+        last_7d: item.median_price, // Using median_price for all timeframes as an example
+        last_30d: item.median_price,
+        last_90d: item.median_price,
+      },
+      buff163: {
+        starting_at: {
+          price: item.median_price, // Assigning median_price to buff163 starting_at
+        },
+      },
+      skinport: {
+        starting_at: item.median_price, // Assigning median_price to skinport starting_at
+      },
+    };
+
+    // Use the market_hash_name as the key, and assign the transformed pricing data
+    transformedData[item.market_hash_name] = skinledgerPricing;
+  });
+
+  return transformedData;
 }
 
 let currencyCodes = {
@@ -146,7 +235,8 @@ class runItems {
         this.prices[itemNamePricing]?.steam?.last_7d == 0 &&
         this.prices[itemNamePricing]?.buff163.starting_at?.price > 2000
       ) {
-        pricingDict.steam_listing = this.prices[itemNamePricing]?.buff163.starting_at?.price * 0.8;
+        pricingDict.steam_listing =
+          this.prices[itemNamePricing]?.buff163.starting_at?.price * 0.8;
       }
       itemRow['pricing'] = pricingDict;
       return itemRow;
