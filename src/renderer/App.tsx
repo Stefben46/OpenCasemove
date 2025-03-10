@@ -518,7 +518,7 @@ function AppContent() {
                 </Menu.Items>
               </Transition>
             </Menu>
-
+            {/*
             <div className={shouldUpdate ? 'px-3 mt-5' : 'px-3 mt-5 '}>
               {userDetails.CSGOConnection == false &&
               userDetails.isLoggedIn == true ? (
@@ -535,6 +535,7 @@ function AppContent() {
                   <span className="mr-3 text-green-900">Retry connection</span>
                 </button>
               ) : shouldUpdate ? (
+                
                 <button
                   type="button"
                   disabled={true}
@@ -551,7 +552,7 @@ function AppContent() {
                   </span>
                 </button>
               ) : (
-                <div className='flex flex-col gap-3'>
+                <div className="flex flex-col gap-3">
                   <a href="https://discord.gg/n8QExYF7Qs" target="_blank">
                     <button
                       type="button"
@@ -589,10 +590,11 @@ function AppContent() {
                     >
                       <span className="mr-3">Join the Skinledger beta</span>
                     </button>
-                  </a> */}
+                  </a>
                 </div>
               )}
             </div>
+            */}
 
             {/* Navigation */}
             <nav className="px-3 mt-5">
