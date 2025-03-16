@@ -3,9 +3,9 @@ const VDF = require('@node-steam/vdf');
 const axios = require('axios');
 
 const itemsLink =
-  'https://raw.githubusercontent.com/SteamDatabase/GameTracking-CSGO/master/csgo/scripts/items/items_game.txt';
+  'https://raw.githubusercontent.com/SteamDatabase/GameTracking-CS2/master/game/csgo/pak01_dir/scripts/items/items_game.txt';
 const translationsLink =
-  'https://raw.githubusercontent.com/SteamDatabase/GameTracking-CSGO/master/csgo/resource/csgo_english.txt';
+  'https://raw.githubusercontent.com/SteamDatabase/GameTracking-CS2/master/game/csgo/pak01_dir/resource/csgo_english.txt';
 
 function fileCatcher(endNote) {
   return `${csgo_install_directory}${endNote}`;
@@ -34,7 +34,7 @@ async function getTranslations(items) {
 
       return finalDict;
     });
-    returnValue['stickerkit_cs20_boost_holo'];
+    console.log('translations:', returnValue['stickerkit_cs20_boost_holo']);
     items.setTranslations(returnValue, 'normal');
   } catch (err) {
     console.log('Error occurred during translation parsing');
@@ -66,6 +66,7 @@ async function updateItems(items) {
       };
       const data = response.data;
       const jsonData = VDF.parse(data);
+
       dict_to_write['items'] = updateItemsLoop(jsonData, 'items');
       dict_to_write['paint_kits'] = updateItemsLoop(jsonData, 'paint_kits');
       dict_to_write['prefabs'] = updateItemsLoop(jsonData, 'prefabs');
@@ -86,8 +87,10 @@ async function updateItems(items) {
 
       return dict_to_write;
     });
-    // Validate data
-    returnValue['items'][1209];
+
+    // Validate data and log specific item
+    console.log('item :', returnValue['items'][50]);
+
     items.setCSGOItems(returnValue);
   } catch (err) {
     console.log('Error occurred during items parsing');
@@ -130,15 +133,15 @@ class items {
     }
 
     for (const [key, value] of Object.entries(inventoryResult)) {
-
-      
       if (value['def_index'] == undefined) {
         continue;
       }
       const freeRewardStatusBytes = getAttributeValueBytes(value, 277);
-      if (freeRewardStatusBytes && freeRewardStatusBytes.readUInt32LE(0) === 1) {
+      if (
+        freeRewardStatusBytes &&
+        freeRewardStatusBytes.readUInt32LE(0) === 1
+      ) {
         continue;
-        
       }
       let musicIndexBytes = getAttributeValueBytes(value, 166);
       if (musicIndexBytes) {
@@ -154,8 +157,6 @@ class items {
       ) {
         continue;
       }
-      // console.log(value['item_id'])
-
 
       const returnDict = {};
       // URL
@@ -470,6 +471,12 @@ class items {
       var imageInventory = `econ/weapons/base_weapons/${defIndexresult['name']}`;
     }
 
+    if (imageInventory == undefined) {
+      var imageInventory = `econ/keychains/weapon_1/`;
+    }
+    console.log('index', defIndexresult);
+    console.log('from', storageRow);
+    console.log('getting url', imageInventory);
     return imageInventory;
   }
   itemProcessorCanBeMoved(returnDict, storageRow) {
