@@ -1,123 +1,77 @@
-## This is not the official Casemove repo, it was forked from the main one before the license change
-## This repository originates from casemove, but any modifications, updates, or changes made here are independent and do not reflect the work or endorsement of the original author https://github.com/nombersDev
-## if you are interested in the latest version made by nombers (the original creator) --> https://github.com/nombersDev/casemove
+# OpenCaseMove
 
+OpenCaseMove is an open-source desktop application designed to help users efficiently move items in and out of Storage Units in **Counter-Strike 2**. It builds upon the foundation of the original **CaseMove** project but remains an independent fork under the **GPL 3.0 license**.
 
-# CASEMOVE
+## About OpenCaseMove
 
-*Casemove is an open-source desktop application that helps you easily move items out of and into Storage Units in Counter-Strike 2. The app utilizes the [Steam-user](https://github.com/DoctorMcKay/node-steam-user) & [Global Offensive](https://github.com/DoctorMcKay/node-globaloffensive) libraries to establish a connection with Steam and interact with the CS2 game coordinator.* 
+- OpenCaseMove originates from **CaseMove** but is now developed separately.
+- Any modifications, updates, or changes made here do **not** reflect the work or endorsement of the original author.
+- This project ensures continued open-source availability under the **GPL 3.0 license**.
 
-----
+## Features
 
+- **Inventory Management:** View and organize your CS2 inventory.
+- **Storage Unit Handling:** Move items in bulk between inventory and storage units.
+- **Item Value Estimation:** See inventory and storage unit values from Buff, Skinport, and SCM.
+- **Filtering & Sorting:** Quickly search and organize items.
+- **Trade-Up Contracts:** Complete trade-up contracts within the app.
+- **Multi-Account Support:** Easily switch between multiple Steam accounts.
+- **Secure Login Options:** Use a shared secret key instead of an auth code for quick logins.
 
+## How to Use
 
-## Support
+To use OpenCaseMove, you must build the project from source.
 
-Please join the Casemove discord for support: https://discord.gg/4dSBdt4uJ3
+### Prerequisites:
+- **Node.js v14.18.2**
+- **NPM v7.24.2**
 
-https://user-images.githubusercontent.com/98760010/181345579-e4fd11be-1af9-4b8b-a211-5747fdd414aa.mp4
+### Installation:
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/Stefben46/OpenCasemove.git
+   cd opencasemove
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Build the application:
+   ```sh
+   npm run build
+   ```
+4. The setup installer will be available in the `release/build` folder.
 
+## Common Questions
 
+### Can I be VAC banned?
+No. OpenCaseMove does **not** interact with your CS2 game client. It only connects to Steam and emulates a CS2 connection, similar to other third-party tools like **Archi Steam Farm**.
 
+### Does OpenCaseMove store my information?
+No. OpenCaseMove does not store any sensitive data on your computer, except for the optional refresh token (stored securely using [safeStore](https://www.electronjs.org/docs/latest/api/safe-storage)).
 
-Features include:
-  * An overview page of your storage contents
-  * Log in without entering your password / Steam Guard
-  * View your inventory
-  * View your storage units contents
-  * View the Value of your inventory and storage units
-  * Move items out of and into your storage units in bulk instead of clicking on the individual items
-  * Rename your storage units
-  * Sort, search and filter your inventory
-  * Sort, search and filter your storage units contents
-  * Download a file over your Storage units and inventory contents
-  * Switch between multiple accounts easily
-  * Use your shared secret key instead of an auth code to log in 
-  * See your storage unit's and inventory value from Buff, Skinport & SCM in almost all currencies
+### Why can't I log in using Steam Web authentication?
+To move items in and out of storage units, OpenCaseMove requires an active connection with the CS2 game coordinator, which is not possible using web authentication.
 
-Trade up features:
-  * Complete trade up contracts from within the app! 
-  * See the possible outcomes from your trade up contract
-  * See an estimated EV of your trade up contract recipe
-
-----
-
-### How To Use
-
-If you want to use this working version of CaseMove, you will need to build the project yourself.
-
-The project currently works but does not load charms and has issues with new skins. These problems will be fixed in future updates.
-
-I use Node.js v14.18.2 and NPM v7.24.2 to build it.
-
-After installing Node.js and NPM, navigate to the project folder and run:
-npm install
-Once the project is built, you will find the setup installer in the release/build folder.
-
-For now, I don’t plan on publishing a pre-built installer, but if there is enough interest, I may do so in the future.
-
-
-
-----
-
-## COMMON QUESTIONS
-#### Can I be VAC banned?
-
-No.
-The app doesn’t interact with your CS2 game client. It doesn’t inject any code into the game. You don’t even need to have the game installed for the app to run. All the app does is connect to Steam and emulate a CS2 connection.
-
-Furthermore, the libraries [Steam-user](https://github.com/DoctorMcKay/node-steam-user) & [Global Offensive](https://github.com/DoctorMcKay/node-globaloffensive) have been used by thousands of people, and this app is merely a cosmetic rendition of these libraries.
-
-#### Does Casemove store any of my information?
-
-No, Casemove doesn’t store any information on your computer, except for when you ask it to remember your refresh token. As of Casemove 2.3.3, Casemove no longer stores your password when you login. The refresh token is stored safely using [safeStore](https://www.electronjs.org/docs/latest/api/safe-storage). Casemove doesn’t send any information to anyone outside of Steam.
-
-#### Why can't I just log in using the Steam Web authentication?
-
-In order to move items in and out of Storage Units, the app needs to have an active connection with the CS2 game coordinator. This is not possible when using the web authentication method. However, take a look at the question below. 
-
-#### How does the browser login work?
-
-The browser login feature works by you logging in to the regular Steam website which makes Steam generate a one time string that you, amongst other things, can use to log in to casemove. This is the safest login method, as the generated string is single use which means that even if someone got a hold of it, it would be useless to them. To get the string open this [URL](https://steamcommunity.com/chat/clientjstoken).
-
-#### Where can I read more about the safety?
-
-Casemove is comparable to the software "Archi Steam Farm" and since Archi has made a terrific wiki on this issue, I'd refer over this wiki for further [reading](https://github.com/JustArchiNET/ArchiSteamFarm/wiki/FAQ#security--privacy--vac--bans--tos)
-
-As with anything, It's important to know that the using this software is distributed "as is" and without any warranty. 
-
-----
-## Built using
-- Node version 14.18.2
-- React Electron Boilerplate
-- Tailwind v2
-----
-
-## Author
-
-Casemove was created by Nombers.
-
-- Steam: https://steamcommunity.com/id/realNombers/
-- Reddit: https://www.reddit.com/user/nubbiners
-- Discord: Nombers#1046
-----
-
-## How to build
-
-The main instructions on how to build the application from source be found using the [Electron React Boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate) and it's [docs](https://electron-react-boilerplate.js.org/docs/building). 
-I've built the app using [NVM](https://github.com/nvm-sh/nvm) with node version 14.18.2. 
-
-
-----
+## Built Using
+- **Node.js v14.18.2**
+- **React Electron Boilerplate**
+- **TailwindCSS v2**
 
 ## License
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+OpenCaseMove is released under the **GNU General Public License v3.0**.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+This means you are free to **use, modify, and distribute** the software under the same license. However, the software comes with **no warranty**. For full details, see the [GPL v3.0 license](https://www.gnu.org/licenses/gpl-3.0.html).
 
-You should have received a copy of the GNU General Public License  along with this program.  If not, see http://www.gnu.org/licenses/.
+## How to Build
 
+For detailed build instructions, refer to the [Electron React Boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate) documentation.
 
-<!--- Frycus will never know this is here ---> 
+## Contributing
+Contributions are welcome! Feel free to fork the repository, make improvements, and submit a pull request.
+
+---
+
+OpenCaseMove is a community-driven project dedicated to keeping CS2 inventory management **accessible and open-source**.
 
